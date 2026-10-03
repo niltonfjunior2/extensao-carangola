@@ -61,15 +61,15 @@ Todo o ecossistema do portal foi modelado em estrita observância à legislaçã
 
 ```mermaid
 graph TD
-    A[Docente Proponente] -->|1. Submete Proposta + Espelho PDF| B[Gate de Auditoria - NUPEX]
-    B -->|2. Validação Magic Bytes + SHA-256| C[(Supabase PostgreSQL)]
-    C -->|3. Evento Homologado| D[Inscrição de Estudantes]
-    D -->|4. Emissão de Credencial Ed25519| E[PWA de Credenciamento]
-    E -->|5. Check-in Offline + CRDT LEAST| C
-    C -->|6. Emissão sob Demanda R$ 0,00| F[Certidão Tipográfica Oficial]
-    F -->|7. Consulta Pública Mascarada| G[/validar/[code] - LGPD]
-    C -->|8. Desacoplamento| H[Pacote SEI-MG]
-    C -->|9. Custódia Perpétua| I[Cold Ledger CSV + HTML Offline]
+    A["Docente Proponente"] -->|"1. Submete Proposta + Espelho PDF"| B["Gate de Auditoria (NUPEX)"]
+    B -->|"2. Validação Magic Bytes + SHA-256"| C[("Supabase PostgreSQL")]
+    C -->|"3. Evento Homologado"| D["Inscrição de Estudantes"]
+    D -->|"4. Emissão de Credencial Ed25519"| E["PWA de Credenciamento"]
+    E -->|"5. Check-in Offline + CRDT LEAST"| C
+    C -->|"6. Emissão sob Demanda (R$ 0,00)"| F["Certidão Tipográfica Oficial"]
+    F -->|"7. Consulta Pública Mascarada"| G["Consulta Pública /validar (LGPD)"]
+    C -->|"8. Desacoplamento"| H["Pacote SEI-MG"]
+    C -->|"9. Custódia Perpétua"| I["Cold Ledger (CSV + HTML Offline)"]
 ```
 
 ### 1. Motor de Certificados sob Demanda (R$ 0,00 de Storage)
