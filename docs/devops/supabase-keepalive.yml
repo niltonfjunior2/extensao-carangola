@@ -1,0 +1,44 @@
+name: Supabase Keepalive & Anti-Inactivity
+
+on:
+  schedule:
+    # Executa bidiariamente às 04:15 e 16:15 UTC (gerando escrita WAL real no PostgreSQL)
+    - cron: '15 4,16 * * *'
+  workflow_dispatch: # Permite disparo manual
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Keepalive Table (Real WAL Transaction)
+        env:
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        run: |
+          echo "Disparando PATCH transacional para tabela keepalive no Supabase..."
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          
+          HTTP_STATUS=$(curl -s -o response.txt -w "%{http_code}" -X PATCH \
+            "$SUPABASE_URL/rest/v1/keepalive?id=eq.1" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -H "Prefer: return=minimal" \
+            -d "{\"last_ping\": \"$TIMESTAMP\", \"source\": \"github_actions_cron\"}")
+          
+          echo "Status retornado: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" -ne 200 ] && [ "$HTTP_STATUS" -ne 204 ]; then
+            echo "Falha ao registrar keepalive: $(cat response.txt)"
+            exit 1
+          fi
+          echo "Ping transacional registrado com sucesso!"
+
+      - name: Checkout Repository (Keepalive do Cron no GitHub)
+        uses: actions/checkout@v4
+
+      - name: Prevenir Suspensão do GitHub Actions (Regra de 60 dias)
+        run: |
+          git config --global user.name "UEMG Carangola Bot"
+          git config --global user.email "extensao.carangola@uemg.br"
+          git commit --allow-empty -m "chore(keepalive): renovacao automatica de atividade do repositorio [skip ci]" || exit 0
+          git push origin main || exit 0

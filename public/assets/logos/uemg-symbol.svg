@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" fill="none">
+  <!-- Fundo Circular Azul UEMG -->
+  <circle cx="60" cy="60" r="58" fill="#0b4382" stroke="#d99b26" stroke-width="3"/>
+  
+  <!-- Monograma Estilizado UEMG -->
+  <g fill="#ffffff" font-family="'Inter', -apple-system, sans-serif" font-weight="900" text-anchor="middle">
+    <!-- Letra U nobre -->
+    <path d="M40 38 V62 C40 73 48 81 60 81 C72 81 80 73 80 62 V38 H70 V62 C70 68 66 72 60 72 C54 72 50 68 50 62 V38 Z" fill="#ffffff"/>
+    <!-- Detalhe Dourado Minas Gerais -->
+    <polygon points="60,24 66,35 54,35" fill="#d99b26"/>
+  </g>
+  
+  <!-- Inscrição Institucional Inferior -->
+  <text x="60" y="98" fill="#d99b26" font-family="'Inter', sans-serif" font-size="9" font-weight="800" letter-spacing="1.5" text-anchor="middle">
+    CARANGOLA
+  </text>
+</svg>
